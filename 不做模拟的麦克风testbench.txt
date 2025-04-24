@@ -1,0 +1,24 @@
+`timescale 1ns / 1ps
+
+module top_i2s_mic (
+    input wire clk,         // FPGA 100 MHz 主时钟
+    input wire rst_n,       // 低有效复位
+    input wire SD,          // 来自麦克风的串行音频数据
+    output wire SCK,        // 发给麦克风的时钟
+    output wire WS,         // 发给麦克风的左右声道选择
+    output wire [23:0] audio_data,  // 采集到的 24-bit 数据
+    output wire data_valid           // 表示 audio_data 有效
+);
+
+    // 实例化麦克风采集模块
+    i2s_mic u_i2s_mic (
+        .clk(clk),
+        .rst_n(rst_n),
+        .SD(SD),
+        .SCK(SCK),
+        .WS(WS),
+        .audio_data(audio_data),
+        .data_valid(data_valid)
+    );
+
+endmodule
